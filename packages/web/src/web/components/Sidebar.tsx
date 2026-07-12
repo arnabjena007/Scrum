@@ -77,13 +77,17 @@ export default function Sidebar({ onNewTask, collapsed, onToggle, darkMode, onTh
         collapsed ? "justify-center px-0 pt-4 pb-4" : "justify-start px-3 pt-4 pb-3"
       )}>
         {!collapsed && (
-          <div className="flex items-center" style={{ gap: "1px" }}>
+          <Link href="/app" className="flex items-center" style={{ gap: "1px" }} aria-label="Go to dashboard">
             {["S", "C", "R", "U", "M"].map((l) => (
               <img key={l} src={`/logo/${l}.png?v=9`} className="h-7 w-auto" alt={l} />
             ))}
-          </div>
+          </Link>
         )}
-        {collapsed && <span className="font-nav text-lg">S</span>}
+        {collapsed && (
+          <Link href="/app" className="font-nav text-lg" aria-label="Go to dashboard">
+            S
+          </Link>
+        )}
       </div>
 
       {/* New Task */}

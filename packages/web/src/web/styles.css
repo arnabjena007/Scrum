@@ -1,0 +1,522 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Instrument Serif', serif;
+  --font-sans: 'Instrument Serif', serif;
+  --color-background: #fafaf8;
+  --color-foreground: #0a0a0a;
+  --color-muted: #f0ede8;
+  --color-muted-foreground: #6b6b6b;
+  --color-border: #e0ddd8;
+  --color-accent: #0a0a0a;
+  --color-accent-foreground: #fafaf8;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  font-family: 'Instrument Serif', serif;
+  font-stretch: normal;
+  font-variation-settings: normal;
+  background: #fafaf8;
+  color: #0a0a0a;
+  height: 100%;
+  overflow: auto;
+}
+
+body {
+  --app-bg: #f5f6f3;
+  --app-surface: #ffffff;
+  --app-surface-muted: #eef0eb;
+  --app-border: #dfe3dc;
+  --app-text: #111510;
+  --app-muted: #737a71;
+  transition: background-color 180ms ease, color 180ms ease;
+  font-size: 16px;
+}
+
+body.app-dark {
+  background: #111510;
+  color: #f3f5f0;
+  --app-bg: #111510;
+  --app-surface: #191d19;
+  --app-surface-muted: #222822;
+  --app-border: #303830;
+  --app-text: #f3f5f0;
+  --app-muted: #a1aa9f;
+}
+
+.app-shell,
+.app-shell aside,
+.app-shell header,
+.app-shell .bg-white,
+.app-shell [class*="bg-[#fafaf8]"] {
+  background-color: var(--app-bg) !important;
+  color: var(--app-text);
+}
+
+.app-shell .bg-white { background-color: var(--app-surface) !important; }
+.app-shell [class*="border-zinc"] { border-color: color-mix(in srgb, var(--app-border) 78%, var(--app-text) 22%) !important; }
+.app-shell [class*="text-zinc-700"],
+.app-shell [class*="text-zinc-800"],
+.app-shell [class*="text-zinc-900"],
+.app-shell [class*="text-black"] {
+  color: var(--app-text) !important;
+}
+
+.app-shell [class*="text-zinc-300"],
+.app-shell [class*="text-zinc-400"],
+.app-shell [class*="text-zinc-500"],
+.app-shell [class*="text-zinc-600"],
+.app-shell .label-caps {
+  color: var(--app-muted) !important;
+}
+
+.app-shell input,
+.app-shell textarea,
+.app-shell select {
+  color: var(--app-text) !important;
+}
+
+.app-shell input::placeholder,
+.app-shell textarea::placeholder {
+  color: var(--app-muted) !important;
+  opacity: 0.85;
+}
+.app-shell [class*="hover:bg-zinc-50"]:hover, .app-shell [class*="hover:bg-zinc-100"]:hover { background-color: var(--app-surface-muted) !important; }
+.app-shell .theme-toggle { background-color: transparent; }
+.app-shell .theme-toggle:hover { background-color: var(--app-surface-muted); }
+
+/* Keep the product UI on one readable typeface; technical labels stay mono below. */
+.app-shell,
+.app-shell button,
+.app-shell input,
+.app-shell textarea,
+.app-shell select,
+.app-shell h1,
+.app-shell h2,
+.app-shell h3,
+.app-shell p,
+.app-shell a,
+.app-shell span {
+  font-family: 'Instrument Serif', serif;
+}
+
+.app-shell .label-caps {
+  font-family: 'Instrument Serif', serif;
+  letter-spacing: 0;
+}
+
+body.app-dark .app-shell .bg-black { background-color: #f3f5f0 !important; color: #111510 !important; }
+body.app-dark .app-shell .text-white { color: #111510 !important; }
+body.app-dark .app-shell .border-black { border-color: #f3f5f0 !important; }
+
+/* Pastel notes always use dark ink, regardless of the surrounding app theme. */
+.app-shell .sticky-note,
+.app-shell .sticky-note p,
+.app-shell .sticky-note span,
+.app-shell .sticky-note svg {
+  color: #1a1a1a !important;
+}
+
+#root { height: 100%; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d0cdc8; }
+::-webkit-scrollbar-thumb:hover { background: #a0a0a0; }
+
+/* ── Sticky note cards ── */
+.sticky-note {
+  position: relative;
+  border-radius: 1px;
+  padding: 14px 16px 12px;
+  color: #1a1a1a;
+  box-shadow:
+    1px 2px 6px rgba(0,0,0,0.10),
+    0 0 0 1px rgba(0,0,0,0.06);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  cursor: grab;
+  user-select: none;
+  font-family: 'Instrument Serif', serif;
+}
+
+.sticky-note:hover {
+  transform: translateY(-2px) rotate(0.4deg);
+  box-shadow:
+    3px 6px 18px rgba(0,0,0,0.13),
+    0 0 0 1px rgba(0,0,0,0.08);
+}
+
+.sticky-note:active { cursor: grabbing; }
+
+.hero-copy {
+  padding: 28px 30px 30px;
+  background: rgba(250, 250, 248, 0.88);
+  border: 1px solid rgba(10, 10, 10, 0.12);
+  box-shadow: 8px 10px 0 rgba(10, 10, 10, 0.08);
+}
+
+@media (max-width: 640px) {
+  .hero-copy { padding: 22px 20px 24px; }
+}
+
+@keyframes noteSway {
+  0%, 100% { transform: rotate(calc(var(--note-rotate) - 1deg)) translateY(0); }
+  50% { transform: rotate(calc(var(--note-rotate) + 1deg)) translateY(-4px); }
+}
+
+.hanging-note {
+  animation: noteSway 4.8s ease-in-out var(--sway-delay, 0s) infinite;
+  transform-origin: 50% -14px;
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+  cursor: pointer;
+}
+
+.hanging-note:hover,
+.hanging-note:focus-visible,
+.hanging-note.is-selected {
+  animation-play-state: paused;
+  transform: rotate(0deg) translateY(-10px) scale(1.06);
+  box-shadow: 8px 16px 26px rgba(0,0,0,0.18), 0 0 0 2px rgba(10,10,10,0.12);
+  filter: saturate(1.08);
+  outline: none;
+  z-index: 20;
+}
+
+.hanging-note.is-selected::before {
+  content: 'CLICK TO RELEASE';
+  position: absolute;
+  left: 50%;
+  bottom: -25px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font: 9px 'Instrument Serif', serif;
+  letter-spacing: 0.08em;
+  color: #6b6b6b;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hanging-note { animation: none; }
+}
+
+/* Dog-ear */
+.sticky-note::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 14px; height: 14px;
+  background: rgba(0,0,0,0.08);
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+
+/* Note colours — muted, paper-like */
+.note-yellow { background: #fef9c3; border-top: 2px solid #fde047; }
+.note-pink   { background: #fce7f3; border-top: 2px solid #f9a8d4; }
+.note-blue   { background: #dbeafe; border-top: 2px solid #93c5fd; }
+.note-green  { background: #dcfce7; border-top: 2px solid #86efac; }
+.note-orange { background: #ffedd5; border-top: 2px solid #fdba74; }
+.note-purple { background: #f3e8ff; border-top: 2px solid #d8b4fe; }
+
+.dragging-card {
+  opacity: 0.9;
+  transform: rotate(2deg) scale(1.03);
+  box-shadow: 6px 12px 32px rgba(0,0,0,0.2);
+  cursor: grabbing;
+  z-index: 9999;
+}
+
+/* ── Animations ── */
+@keyframes fadeIn   { from { opacity: 0; }              to { opacity: 1; } }
+@keyframes slideUp  { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.animate-fade    { animation: fadeIn  0.15s ease forwards; }
+.animate-modal   { animation: slideUp 0.18s ease forwards; }
+
+/* ── Product label ── */
+.label-caps {
+  font-family: 'Instrument Serif', serif;
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #6b6b6b;
+  font-weight: 500;
+}
+
+/* ── Display heading ── */
+.font-display { font-family: 'Instrument Serif', serif; }
+
+/* ── Note heading ── */
+.font-note-heading {
+  font-family: 'Instrument Serif', serif;
+  font-style: normal;
+  letter-spacing: 0;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+/* ── Note body ── */
+.font-note-body {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+/* ── Nav heading ── */
+.font-nav {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Instrument Serif is the single typeface used throughout the product. */
+body,
+button,
+input,
+textarea,
+select,
+option,
+* {
+  font-family: 'Instrument Serif', serif !important;
+  font-stretch: normal !important;
+  font-variation-settings: normal !important;
+}
+
+.app-shell .tracking-tight,
+.app-shell .tracking-wide,
+.app-shell .tracking-wider,
+.app-shell .tracking-widest,
+.app-shell [class*="tracking-"],
+.app-shell .uppercase {
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.task-modal {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+.task-modal label,
+.task-modal .label-caps {
+  color: #4b5563 !important;
+}
+
+.task-modal input,
+.task-modal textarea,
+.task-modal select {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-color: #d4d4d8 !important;
+  caret-color: #111827;
+}
+
+.task-modal input::placeholder,
+.task-modal textarea::placeholder {
+  color: #9ca3af !important;
+  opacity: 1;
+}
+
+.task-modal button {
+  color: inherit;
+}
+
+.task-modal button.bg-black,
+.task-modal button.bg-red-600,
+.task-modal button.bg-amber-500,
+.task-modal button.bg-green-600 {
+  color: #ffffff !important;
+}
+
+/* ── Custom loader ── */
+.loader {
+  width: 80px;
+  height: 40px;
+  display: flex;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  margin: 0 -2px 0 0;
+  flex: 1;
+  --c: no-repeat linear-gradient(#000 0 0);
+  background: var(--c), var(--c), var(--c), var(--c);
+  animation: l13-1 1s infinite linear, l13-2 1s infinite linear;
+}
+.loader:after {
+  transform: scale(-1);
+  margin: 0 0 0 -2px;
+}
+@keyframes l13-1 {
+  0%,  3%   { background-size: 0   4px, 4px 0  , 0   4px, 4px 0   }
+  12.5%     { background-size: 50% 4px, 4px 0  , 0   4px, 4px 0   }
+  25%       { background-size: 50% 4px, 4px 50%, 0   4px, 4px 0   }
+  37.5%     { background-size: 50% 4px, 4px 50%, 50% 4px, 4px 0   }
+  46%, 54%  { background-size: 50% 4px, 4px 50%, 50% 4px, 4px 50% }
+  62.5%     { background-size: 0   4px, 4px 50%, 50% 4px, 4px 50% }
+  75%       { background-size: 0   4px, 4px 0  , 50% 4px, 4px 50% }
+  87.5%     { background-size: 0   4px, 4px 0  , 0   4px, 4px 50% }
+  96%, 100% { background-size: 0   4px, 4px 0  , 0   4px, 4px 0   }
+}
+@keyframes l13-2 {
+  0%,  49.9% { background-position: 0         20px, 50%  20px, 20px  100%, 100% 100% }
+  50%, 100%  { background-position: right 20px top 20px, 50%  100%,  100% 100%, 100% 20px }
+}
+
+/* Final product-wide UI rules: one font, rounded bordered surfaces. */
+:root {
+  --app-radius-sm: 10px;
+  --app-radius: 14px;
+  --app-radius-lg: 18px;
+}
+
+html,
+body,
+#root,
+#root *,
+#root *::before,
+#root *::after {
+  font-family: 'Instrument Serif', serif !important;
+  font-stretch: normal !important;
+  font-variation-settings: normal !important;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+#root .font-display,
+#root .font-nav,
+#root .font-note-heading,
+#root .font-note-body,
+#root .label-caps {
+  font-family: 'Instrument Serif', serif !important;
+}
+
+#root .tracking-tight,
+#root .tracking-wide,
+#root .tracking-wider,
+#root .tracking-widest,
+#root [class*="tracking-"] {
+  letter-spacing: 0 !important;
+}
+
+#root .uppercase {
+  text-transform: none !important;
+}
+
+#root button,
+#root input,
+#root textarea,
+#root select,
+#root [role="button"],
+#root .sticky-note,
+#root .task-modal,
+#root [class*="border"],
+#root [class*="bg-white"],
+#root [class*="bg-zinc"],
+#root [class*="bg-[#fafaf8]"] {
+  border-radius: var(--app-radius) !important;
+}
+
+#root header,
+#root aside,
+#root nav,
+#root main {
+  border-radius: 0 !important;
+}
+
+#root .dashboard-card,
+#root .profile-controls,
+#root .profile-button,
+#root .board-column,
+#root .board-search,
+#root .timeline-panel,
+#root .timeline-detail,
+#root .calendar-task,
+#root .timeline-task,
+#root .empty-column,
+#root nav a {
+  border-radius: var(--app-radius) !important;
+}
+
+#root .add-task-button,
+#root .calendar-nav,
+#root .column-count,
+#root .day-number,
+#root .sidebar-edge-toggle {
+  border-radius: var(--app-radius-sm) !important;
+}
+
+#root .sidebar-edge-toggle {
+  background: var(--app-surface) !important;
+  color: var(--app-text);
+}
+
+#root .app-sidebar {
+  border-radius: 0 !important;
+  overflow: visible;
+}
+
+#root .dashboard-card {
+  box-shadow: 0 1px 0 rgba(17, 21, 16, 0.04), 0 8px 24px rgba(17, 21, 16, 0.035);
+}
+
+body.app-dark #root .dashboard-card {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03), 0 10px 30px rgba(0, 0, 0, 0.16);
+}
+
+#root .board-column,
+#root .timeline-panel {
+  box-shadow: 0 1px 0 rgba(17, 21, 16, 0.04), 0 8px 24px rgba(17, 21, 16, 0.035);
+}
+
+#root .calendar-day {
+  transition: background-color 160ms ease;
+}
+
+#root .calendar-day:hover {
+  background: var(--app-surface-muted) !important;
+}
+
+body.app-dark #root .board-column,
+body.app-dark #root .timeline-panel {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+}
+
+@media (max-width: 760px) {
+  #root .board-column {
+    width: 280px;
+  }
+
+  #root .timeline-panel {
+    min-width: 760px;
+  }
+
+  #root .timeline-panel:has(.calendar-day) {
+    overflow: hidden;
+  }
+}
+
+#root .rounded-full,
+#root [class*="rounded-full"] {
+  border-radius: 9999px !important;
+}
+
+#root .sticky-note {
+  border-radius: var(--app-radius-sm) !important;
+}
+
+#root .task-modal,
+#root [role="dialog"] {
+  border-radius: var(--app-radius-lg) !important;
+}
+
+#root [class*="rounded-none"] {
+  border-radius: var(--app-radius) !important;
+}

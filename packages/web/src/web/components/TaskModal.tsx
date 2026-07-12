@@ -22,6 +22,20 @@ interface Props {
 
 const priorityOptions: TaskPriority[] = ["low", "medium", "high"];
 
+async function getErrorMessage(res: Response, fallback: string) {
+  try {
+    const data = await res.clone().json() as { error?: string; message?: string };
+    return data.error || data.message || fallback;
+  } catch {
+    try {
+      const text = await res.text();
+      return text || fallback;
+    } catch {
+      return fallback;
+    }
+  }
+}
+
 function noteColorHex(c: NoteColor): string {
   const m: Record<NoteColor, string> = {
     yellow: "#fef9c3", pink: "#fce7f3", blue: "#dbeafe",
@@ -58,7 +72,7 @@ export default function TaskModal({ task, onClose, isNew = false, defaultStatus 
   const createTask = useMutation({
     mutationFn: async () => {
       const res = await api.tasks.$post({ json: { title, description, status, color, priority, assignee, dueDate, tags } });
-      if (!res.ok) throw new Error(await res.text() || `Create failed with status ${res.status}`);
+      if (!res.ok) throw new Error(await getErrorMessage(res, `Create failed with status ${res.status}`));
       return res.json() as Promise<{ task: Task }>;
     },
     onSuccess: (data) => {
@@ -77,7 +91,7 @@ export default function TaskModal({ task, onClose, isNew = false, defaultStatus 
     mutationFn: async () => {
       if (!task) return;
       const res = await api.tasks[":id"].$patch({ param: { id: String(task.id) }, json: { title, description, status, color, priority, assignee, dueDate, tags } });
-      if (!res.ok) throw new Error(await res.text() || `Save failed with status ${res.status}`);
+      if (!res.ok) throw new Error(await getErrorMessage(res, `Save failed with status ${res.status}`));
       return res.json() as Promise<{ task: Task }>;
     },
     onSuccess: (data) => {

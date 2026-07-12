@@ -66,6 +66,31 @@ async function upsertUser(decoded: any) {
 
 const app = new Hono<{ Variables: Variables }>()
   .use(cors({ origin: (origin) => origin ?? "*", credentials: true }))
+  .onError((err, c) => {
+    const message = err instanceof Error ? err.message : "Internal Server Error";
+    console.error("API error:", message);
+
+    if (message.includes("DATABASE_URL is missing")) {
+      return c.json(
+        { error: "Server setup incomplete. Add DATABASE_URL in Vercel environment variables." },
+        500,
+      );
+    }
+
+    if (
+      message.includes("connect ETIMEDOUT")
+      || message.includes("ECONNREFUSED")
+      || message.includes("password authentication failed")
+      || message.includes("getaddrinfo ENOTFOUND")
+    ) {
+      return c.json(
+        { error: "Database connection failed. Check the Supabase Postgres connection string in Vercel." },
+        500,
+      );
+    }
+
+    return c.json({ error: message || "Internal Server Error" }, 500);
+  })
 
   // Auth middleware — decode JWT locally, no network call
   .use("/api/*", async (c, next) => {

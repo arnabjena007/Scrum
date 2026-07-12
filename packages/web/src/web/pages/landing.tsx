@@ -1,5 +1,3 @@
-import { useState, type CSSProperties } from "react";
-
 const features = [
   {
     label: "Kanban Board",
@@ -33,16 +31,7 @@ const features = [
   },
 ];
 
-const demoNotes = [
-  { color: "note-yellow", title: "Launch v1.0", tag: "HIGH", rotate: "-2deg", top: "10%", left: "6%" },
-  { color: "note-pink", title: "Write docs", tag: "MED", rotate: "1.5deg", top: "31%", left: "30%" },
-  { color: "note-blue", title: "Fix bug #42", tag: "HIGH", rotate: "-1deg", top: "40%", left: "57%" },
-  { color: "note-green", title: "Design review", tag: "LOW", rotate: "2deg", top: "64%", left: "78%" },
-];
-
 export default function LandingPage() {
-  const [activeNote, setActiveNote] = useState<number | null>(null);
-
   return (
     <div style={{ minHeight: "100vh", background: "#fafaf8", color: "#0a0a0a", overflowX: "hidden" }}>
 
@@ -86,9 +75,6 @@ export default function LandingPage() {
                 Stay sane.<br />
                 Use Scrum.
               </h1>
-              <p className="font-note-body text-[16px] sm:text-[17px] text-[#4f4f4f] max-w-xl leading-relaxed">
-                A tactile project board with sticky notes, kanban columns, and timelines.
-              </p>
               <div className="flex items-center gap-4 mt-2 flex-wrap">
                 <a
                   href="/app"
@@ -100,35 +86,6 @@ export default function LandingPage() {
                   See features
                 </a>
               </div>
-            </div>
-
-            {/* Demo notes strip */}
-            <div className="relative h-[360px] sm:h-[420px] lg:h-[560px] hidden md:block">
-              {demoNotes.map((n, i) => (
-                <div
-                  key={i}
-                  className={`sticky-note hanging-note ${n.color} absolute w-40 p-4 ${activeNote === i ? "is-selected" : ""}`}
-                  style={{
-                    "--note-rotate": n.rotate,
-                    "--sway-delay": `${i * 0.35}s`,
-                    top: n.top,
-                    left: n.left,
-                  } as CSSProperties}
-                  onClick={() => setActiveNote(activeNote === i ? null : i)}
-                  role="button"
-                  tabIndex={0}
-                  aria-pressed={activeNote === i}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      event.preventDefault();
-                      setActiveNote(activeNote === i ? null : i);
-                    }
-                  }}
-                >
-                  <span className="label-caps text-[9px] mb-2 block">{n.tag}</span>
-                  <p className="font-note-heading text-[15px]">{n.title}</p>
-                </div>
-              ))}
             </div>
           </div>
         </div>

@@ -47,7 +47,7 @@ export default function LandingPage() {
           <a href="#how" className="font-nav text-[#6b6b6b] hover:text-[#0a0a0a] transition-colors text-sm hidden sm:inline">How it works</a>
           <a
             href="/app"
-            className="font-nav bg-[#0a0a0a] text-[#fafaf8] px-3 py-2 text-sm hover:bg-[#333] transition-colors whitespace-nowrap"
+            className="font-nav motion-button bg-[#0a0a0a] text-[#fafaf8] px-3 py-2 text-sm hover:bg-[#333] transition-colors whitespace-nowrap"
           >
             Open App →
           </a>
@@ -78,7 +78,7 @@ export default function LandingPage() {
               <div className="flex items-center gap-4 mt-2 flex-wrap">
                 <a
                   href="/app"
-                  className="font-nav bg-[#0a0a0a] text-[#fafaf8] px-6 py-3 text-sm hover:bg-[#262626] transition-colors shadow-[0_8px_20px_rgba(0,0,0,0.12)]"
+                  className="font-nav motion-button bg-[#0a0a0a] text-[#fafaf8] px-6 py-3 text-sm hover:bg-[#262626] transition-colors shadow-[0_8px_20px_rgba(0,0,0,0.12)]"
                 >
                   Start for free →
                 </a>
@@ -110,8 +110,11 @@ export default function LandingPage() {
           {features.map((f, i) => (
             <div
               key={i}
-              className={`sticky-note ${f.color} p-6 cursor-default`}
-              style={{ transform: `rotate(${(i % 2 === 0 ? -0.5 : 0.5)}deg)` }}
+              className={`sticky-note feature-note ${f.color} p-6 cursor-default`}
+              style={{
+                transform: `rotate(${(i % 2 === 0 ? -0.5 : 0.5)}deg)`,
+                animationDelay: `${i * 80}ms`,
+              }}
             >
               <span className="label-caps mb-3 block">{`0${i + 1}`}</span>
               <h3 className="font-note-heading text-[22px] mb-2">{f.label}</h3>
@@ -166,7 +169,7 @@ export default function LandingPage() {
         </p>
         <a
           href="/app"
-          className="font-nav bg-[#0a0a0a] text-[#fafaf8] px-10 py-4 text-sm hover:bg-[#333] transition-colors inline-block"
+          className="font-nav motion-button bg-[#0a0a0a] text-[#fafaf8] px-10 py-4 text-sm hover:bg-[#333] transition-colors inline-block"
         >
           Open Scrum → Free forever
         </a>

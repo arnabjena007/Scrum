@@ -34,10 +34,10 @@ const features = [
 ];
 
 const demoNotes = [
-  { color: "note-yellow", title: "Launch v1.0", tag: "HIGH", rotate: "-2deg", top: "0px", left: "0px" },
-  { color: "note-pink",   title: "Write docs",  tag: "MED",  rotate: "1.5deg", top: "30px", left: "180px" },
-  { color: "note-blue",   title: "Fix bug #42", tag: "HIGH", rotate: "-1deg", top: "10px", left: "360px" },
-  { color: "note-green",  title: "Design review", tag: "LOW", rotate: "2deg", top: "40px", left: "530px" },
+  { color: "note-yellow", title: "Launch v1.0", tag: "HIGH", rotate: "-2deg", top: "10%", left: "6%" },
+  { color: "note-pink", title: "Write docs", tag: "MED", rotate: "1.5deg", top: "31%", left: "30%" },
+  { color: "note-blue", title: "Fix bug #42", tag: "HIGH", rotate: "-1deg", top: "40%", left: "57%" },
+  { color: "note-green", title: "Design review", tag: "LOW", rotate: "2deg", top: "64%", left: "78%" },
 ];
 
 export default function LandingPage() {
@@ -75,8 +75,8 @@ export default function LandingPage() {
         }}
       >
         <div className="relative max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] gap-10 lg:gap-16 items-end min-h-[calc(100vh-180px)]">
-            <div className="hero-copy flex flex-col gap-6 max-w-2xl pt-6 sm:pt-10">
+          <div className="grid lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] gap-10 lg:gap-10 items-center min-h-[calc(100vh-180px)]">
+            <div className="hero-copy flex flex-col gap-6 max-w-xl pt-6 sm:pt-10">
               <span className="label-caps">Project management — reimagined</span>
               <h1
                 className="font-note-heading text-[clamp(3.4rem,8vw,6.8rem)] leading-[0.9] tracking-[-0.05em] text-[#101010] drop-shadow-[0_1px_0_rgba(255,255,255,0.5)]"
@@ -87,7 +87,7 @@ export default function LandingPage() {
                 Use Scrum.
               </h1>
               <p className="font-note-body text-[16px] sm:text-[17px] text-[#4f4f4f] max-w-xl leading-relaxed">
-                A tactile project board that feels designed, not just assembled. Sticky notes, kanban columns, timelines, and a calm visual system that lets the background support the content instead of competing with it.
+                A tactile project board with sticky notes, kanban columns, and timelines.
               </p>
               <div className="flex items-center gap-4 mt-2 flex-wrap">
                 <a
@@ -129,13 +129,6 @@ export default function LandingPage() {
                   <p className="font-note-heading text-[15px]">{n.title}</p>
                 </div>
               ))}
-              <div className="absolute inset-0 -z-10 flex gap-4 opacity-18">
-                {["To Do","In Progress","Done"].map(c => (
-                  <div key={c} className="flex-1 border border-dashed border-[#0a0a0a] flex items-start justify-center pt-2">
-                    <span className="label-caps text-[9px]">{c}</span>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>

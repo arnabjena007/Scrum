@@ -153,14 +153,15 @@ body.app-dark .app-shell .border-black { border-color: #f3f5f0 !important; }
 .sticky-note:active { cursor: grabbing; }
 
 .hero-copy {
-  padding: 28px 30px 30px;
-  background: rgba(250, 250, 248, 0.88);
-  border: 1px solid rgba(10, 10, 10, 0.12);
-  box-shadow: 8px 10px 0 rgba(10, 10, 10, 0.08);
+  padding: 28px 12px 30px 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 @media (max-width: 640px) {
-  .hero-copy { padding: 22px 20px 24px; }
+  .hero-copy { padding: 18px 0 24px; }
 }
 
 @keyframes noteSway {
@@ -196,6 +197,10 @@ body.app-dark .app-shell .border-black { border-color: #f3f5f0 !important; }
   font: 9px 'Instrument Serif', serif;
   letter-spacing: 0.08em;
   color: #6b6b6b;
+}
+
+.hanging-note {
+  transform-origin: 50% -14px;
 }
 
 @media (prefers-reduced-motion: reduce) {
